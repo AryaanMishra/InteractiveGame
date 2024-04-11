@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Game</title>
+  <style>
+    /* CSS styles for layout and appearance */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #333;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    #start-screen {
+      text-align: center;
+    }
+
+    #start-image img {
+      width: 800px;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e65c54;
+    }
+
+    #game-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #scenario-image img {
+      width: 1024px;
+      height: 1024px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #prompt-text {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #choices {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    #choices button {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="start-screen">
+    <div id="start-image">
+      <!-- Placeholder for start screen image -->
+      <img src="start.jpg" alt="Start Screen Image">
+    </div>
+    <button id="start-button">Start</button>
+  </div>
+
+  <div id="game-container">
+    <div id="scenario-image">
+      <!-- Placeholder for scenario image -->
+      <img src="crossroad.jpg" alt="Scenario Image">
+    </div>
+    <div id="prompt-text">
+      <!-- Placeholder for prompt text -->
+      <p>You find yourself in a mysterious forest. The path ahead splits into two directions. Which way will you go?</p>
+    </div>
+    <div id="choices">
+      <button id="choice1">Take the left path</button>
+      <button id="choice2">Take the right path</button>
+    </div>
+    <audio id="prompt-audio"></audio>
+  </div>
+
+  <script>
+    // JavaScript code to handle user interactions and game logic
+    const startButton = document.getElementById('start-button');
+    const startScreen = document.getElementById('start-screen');
+    const gameContainer = document.getElementById('game-container');
+    const choice1Button = document.getElementById('choice1');
+    const choice2Button = document.getElementById('choice2');
+    const promptAudio = document.getElementById('prompt-audio');
+
+    // Define the game scenarios
+    const scenarios = [
+      {
+        image: 'crossroad.jpg',
+        audio: 'crossroad.mp3',
+        text: 'You find yourself in a mysterious forest. The path ahead splits into two directions. Which way will you go?',
+        choices: ['Take the left path', 'Take the right path']
+      },
+      {
+        image: 'cave.jpg',
+        audio: 'cave.mp3',
+        text: 'You come across a dark cave. Do you want to enter it or continue on your path?',
+        choices: ['Enter the cave', 'Continue on the path']
+      },
+      {
+        image: 'river.jpg',
+        audio: 'river.mp3',
+        text: 'You reach a wide river. Do you want to swim across or look for a bridge?',
+        choices: ['Swim across', 'Look for a bridge']
+      },
+      {
+        image: 'castle.jpg',
+        audio: 'castle.mp3',
+        text: 'You see a castle in the distance. Do you want to approach it or avoid it?',
+        choices: ['Approach the castle', 'Avoid the castle']
+      },
+      {
+        image: 'dragon.jpg',
+        audio: 'dragon.mp3',
+        text: 'A dragon blocks your path. Do you want to fight it or try to sneak past it?',
+        choices: ['Fight the dragon', 'Sneak past the dragon']
+      },
+      // Add more scenarios here...
+    ];
+
+    let currentScenario = 0;
+
+    startButton.addEventListener('click', () => {
+      startScreen.style.display = 'none';
+      gameContainer.style.display = 'flex';
+      loadScenario();
+    });
+
+    choice1Button.addEventListener('click', () => {
+      console.log('You chose the first option');
+      nextScenario();
+    });
+
+    choice2Button.addEventListener('click', () => {
+      console.log('You chose the second option');
+      nextScenario();
+    });
+
+    function loadScenario() {
+        if (currentScenario < scenarios.length) {
+            const scenario = scenarios[currentScenario];
+            document.querySelector('#scenario-image img').src = scenario.image;
+            document.getElementById('prompt-text').textContent = scenario.text;
+            choice1Button.textContent = scenario.choices[0];
+            choice2Button.textContent = scenario.choices[1];
+            promptAudio.src = scenario.audio; // Set the audio source
+            promptAudio.currentTime = 0; // Reset the audio
+            promptAudio.play(); // Then play the audio
+        } else {
+            // Game over, you can redirect to a game over screen here
+            console.log('Game over');
+        }
+    }
+    function nextScenario(choice) {
+        currentScenario++;
+        if (currentScenario < scenarios.length) {
+            // Wait for a few seconds before loading the next scenario
+            setTimeout(loadScenario, 500);
+            // Update the game state based on the player's choice
+            if (choice === 1) {
+            // Player chose the first option
+            console.log('You chose the first option');
+            // Update the game state here...
+            } else if (choice === 2) {
+            // Player chose the second option
+            console.log('You chose the second option');
+            // Update the game state here...
+            }
+        } else {
+            // Game over
+            console.log('Game over');
+        }
+    }
+
+
+  </script>
+</body>
+</html>
